@@ -1,0 +1,1160 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mãe's Kitchen - Comida Caseira Feita com Amor</title>
+    <style>
+        :root {
+            --primary: #d4a574;
+            --primary-dark: #a0826d;
+            --bg-light: #faf7f2;
+            --bg-darker: #4a3728;
+            --text-dark: #2a1f1a;
+            --text-light: #6b5344;
+            --accent: #e8dcc8;
+            --success: #25d366;
+            --error: #dc3545;
+            --border: #e8dcc8;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html, body {
+            height: 100%;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', sans-serif;
+            background: var(--bg-light);
+            color: var(--text-dark);
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        body.dark-mode {
+            --bg-light: #1a1410;
+            --bg-darker: #f5f1e8;
+            --text-dark: #f5f1e8;
+            --text-light: #c9a872;
+            --accent: #3a2f26;
+            --border: #3a2f26;
+        }
+
+        /* HEADER */
+        header {
+            background: white;
+            border-bottom: 1px solid var(--border);
+            padding: 16px 20px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        body.dark-mode header {
+            background: #0f0c0a;
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 16px;
+            align-items: center;
+        }
+
+        button {
+            border: none;
+            cursor: pointer;
+            font-size: 14px;
+            padding: 8px 16px;
+            border-radius: 6px;
+            transition: all 0.3s;
+            font-weight: 500;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-dark);
+        }
+
+        .btn-secondary {
+            background: var(--accent);
+            color: var(--text-dark);
+        }
+
+        .btn-secondary:hover {
+            opacity: 0.8;
+        }
+
+        .btn-icon {
+            background: none;
+            padding: 8px;
+            font-size: 20px;
+        }
+
+        /* LOGIN MODAL */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 40px;
+            border-radius: 12px;
+            width: 90%;
+            max-width: 400px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+
+        body.dark-mode .modal-content {
+            background: #1a1410;
+        }
+
+        .modal h2 {
+            margin-bottom: 24px;
+            color: var(--primary);
+        }
+
+        .form-group {
+            margin-bottom: 16px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--text-dark);
+            font-weight: 500;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            font-size: 14px;
+            background: var(--bg-light);
+            color: var(--text-dark);
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(212, 165, 116, 0.1);
+        }
+
+        .modal-buttons {
+            display: flex;
+            gap: 12px;
+            margin-top: 24px;
+        }
+
+        .modal-buttons button {
+            flex: 1;
+        }
+
+        /* MAIN CONTENT */
+        main {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        /* HOME PAGE */
+        .hero {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .hero h1 {
+            font-size: 42px;
+            margin-bottom: 16px;
+            color: var(--bg-darker);
+        }
+
+        body.dark-mode .hero h1 {
+            color: var(--bg-darker);
+        }
+
+        .hero-subtitle {
+            font-size: 18px;
+            color: var(--text-light);
+            margin-bottom: 24px;
+        }
+
+        .about-section {
+            background: var(--accent);
+            padding: 32px;
+            border-radius: 12px;
+            margin-bottom: 60px;
+            border-left: 4px solid var(--primary);
+        }
+
+        body.dark-mode .about-section {
+            background: #2a1f1a;
+            border-left-color: var(--primary);
+        }
+
+        .about-section h3 {
+            color: var(--primary);
+            margin-bottom: 12px;
+        }
+
+        .about-section p {
+            color: var(--text-light);
+            line-height: 1.6;
+            margin-bottom: 16px;
+        }
+
+        .socials {
+            display: flex;
+            gap: 12px;
+            margin-top: 16px;
+        }
+
+        .socials a {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 500;
+            transition: opacity 0.3s;
+        }
+
+        .socials a:hover {
+            opacity: 0.7;
+        }
+
+        /* PRODUCTS GRID */
+        .products-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 32px;
+        }
+
+        .products-header h2 {
+            font-size: 28px;
+            color: var(--bg-darker);
+        }
+
+        body.dark-mode .products-header h2 {
+            color: var(--bg-darker);
+        }
+
+        .status-bar {
+            background: var(--accent);
+            padding: 16px;
+            border-radius: 8px;
+            margin-bottom: 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        body.dark-mode .status-bar {
+            background: #2a1f1a;
+        }
+
+        .status-text {
+            font-size: 14px;
+            color: var(--text-light);
+        }
+
+        .status-text strong {
+            color: var(--primary);
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: 24px;
+            margin-bottom: 40px;
+        }
+
+        .product-card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            transition: transform 0.3s, box-shadow 0.3s;
+            cursor: pointer;
+            border: 1px solid var(--border);
+        }
+
+        body.dark-mode .product-card {
+            background: #1a1410;
+            border-color: #3a2f26;
+        }
+
+        .product-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 24px rgba(0,0,0,0.12);
+        }
+
+        .product-image {
+            width: 100%;
+            height: 200px;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 80px;
+        }
+
+        .product-info {
+            padding: 20px;
+        }
+
+        .product-name {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--text-dark);
+            margin-bottom: 8px;
+        }
+
+        .product-description {
+            font-size: 13px;
+            color: var(--text-light);
+            margin-bottom: 12px;
+            line-height: 1.5;
+        }
+
+        .product-price {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 12px;
+        }
+
+        .product-stock {
+            font-size: 12px;
+            color: var(--text-light);
+            margin-bottom: 16px;
+        }
+
+        .product-stock.low {
+            color: var(--error);
+        }
+
+        .product-stock.out {
+            color: var(--error);
+        }
+
+        .btn-buy {
+            width: 100%;
+            background: var(--primary);
+            color: white;
+            padding: 12px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .btn-buy:hover {
+            background: var(--primary-dark);
+        }
+
+        .btn-buy:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+
+        /* PRODUCT DETAIL MODAL */
+        .detail-modal {
+            display: none;
+        }
+
+        .detail-modal.active {
+            display: flex;
+        }
+
+        .detail-content {
+            background: white;
+            border-radius: 12px;
+            width: 90%;
+            max-width: 600px;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+
+        body.dark-mode .detail-content {
+            background: #1a1410;
+        }
+
+        .detail-header {
+            padding: 32px;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+
+        .detail-title {
+            font-size: 32px;
+            margin-bottom: 8px;
+        }
+
+        .detail-price {
+            font-size: 28px;
+            font-weight: 700;
+        }
+
+        .detail-close {
+            background: none;
+            color: white;
+            font-size: 28px;
+            padding: 0;
+        }
+
+        .detail-body {
+            padding: 32px;
+        }
+
+        .detail-section {
+            margin-bottom: 24px;
+        }
+
+        .detail-section-title {
+            font-size: 14px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: var(--primary);
+            margin-bottom: 12px;
+        }
+
+        .quantity-input {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+
+        .quantity-input button {
+            width: 40px;
+            height: 40px;
+            padding: 0;
+            border: 1px solid var(--border);
+            background: var(--accent);
+            border-radius: 6px;
+        }
+
+        .quantity-input input {
+            width: 60px;
+            text-align: center;
+            border: 1px solid var(--border);
+            padding: 8px;
+            border-radius: 6px;
+        }
+
+        .location-section {
+            background: var(--accent);
+            padding: 16px;
+            border-radius: 8px;
+            margin-bottom: 24px;
+        }
+
+        body.dark-mode .location-section {
+            background: #2a1f1a;
+        }
+
+        .location-section input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            margin-top: 8px;
+            background: var(--bg-light);
+            color: var(--text-dark);
+        }
+
+        .distance-info {
+            font-size: 14px;
+            color: var(--text-light);
+            margin-top: 12px;
+        }
+
+        .distance-info strong {
+            color: var(--primary);
+        }
+
+        .comments {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            min-height: 80px;
+            resize: vertical;
+            font-family: inherit;
+            background: var(--bg-light);
+            color: var(--text-dark);
+        }
+
+        .detail-buttons {
+            display: flex;
+            gap: 12px;
+        }
+
+        .detail-buttons button {
+            flex: 1;
+            padding: 14px;
+            font-size: 16px;
+            font-weight: 600;
+        }
+
+        /* ADMIN */
+        .admin-container {
+            display: none;
+        }
+
+        .admin-container.active {
+            display: block;
+        }
+
+        .admin-tabs {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 32px;
+            border-bottom: 2px solid var(--border);
+        }
+
+        .admin-tab {
+            background: none;
+            color: var(--text-light);
+            padding: 12px 24px;
+            border: none;
+            border-bottom: 3px solid transparent;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .admin-tab.active {
+            color: var(--primary);
+            border-bottom-color: var(--primary);
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .product-row {
+            background: white;
+            padding: 16px;
+            border-radius: 8px;
+            margin-bottom: 12px;
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr auto;
+            gap: 12px;
+            align-items: center;
+            border: 1px solid var(--border);
+        }
+
+        body.dark-mode .product-row {
+            background: #1a1410;
+        }
+
+        .product-row input {
+            padding: 8px;
+            border: 1px solid var(--border);
+            border-radius: 4px;
+        }
+
+        /* FOOTER */
+        footer {
+            background: var(--bg-darker);
+            color: white;
+            padding: 40px 20px;
+            text-align: center;
+            margin-top: 60px;
+        }
+
+        body.dark-mode footer {
+            background: #0f0c0a;
+        }
+
+        footer p {
+            margin-bottom: 12px;
+        }
+
+        /* UTILITIES */
+        .text-center {
+            text-align: center;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .message {
+            padding: 16px;
+            border-radius: 8px;
+            margin-bottom: 16px;
+        }
+
+        .message.success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .message.error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        .hours-info {
+            background: var(--accent);
+            padding: 12px;
+            border-radius: 6px;
+            font-size: 13px;
+            color: var(--text-light);
+        }
+
+        body.dark-mode .hours-info {
+            background: #2a1f1a;
+        }
+
+        @media (max-width: 768px) {
+            .products-grid {
+                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            }
+
+            .hero h1 {
+                font-size: 32px;
+            }
+
+            .detail-content {
+                width: 95%;
+            }
+
+            .product-row {
+                grid-template-columns: 1fr;
+            }
+
+            .products-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                animation: none !important;
+                transition: none !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <div class="logo">👨‍🍳 Mãe's Kitchen</div>
+            <div class="header-actions">
+                <button class="btn-icon" id="toggleTheme">🌙</button>
+                <button class="btn-secondary" id="btnLogin">Entrar</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- LOGIN MODAL -->
+    <div class="modal" id="loginModal">
+        <div class="modal-content">
+            <h2>Faça login</h2>
+            <form id="loginForm">
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" id="loginEmail" placeholder="email@example.com" required>
+                </div>
+                <div class="form-group">
+                    <label>Senha</label>
+                    <input type="password" id="loginPassword" placeholder="••••••••" required>
+                </div>
+                <div class="modal-buttons">
+                    <button type="submit" class="btn-primary">Entrar</button>
+                    <button type="button" class="btn-secondary" id="btnCloseLogin">Ignorar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- PRODUCT DETAIL MODAL -->
+    <div class="modal detail-modal" id="detailModal">
+        <div class="detail-content">
+            <div class="detail-header">
+                <div>
+                    <div class="detail-title" id="detailName">Empada</div>
+                    <div class="detail-price" id="detailPrice">R$ 6,50</div>
+                </div>
+                <button class="detail-close" id="btnCloseDetail">✕</button>
+            </div>
+            <div class="detail-body">
+                <div class="hours-info" id="hoursInfo">
+                    ⏰ Funcionamento: Seg-Sex 17:00-20:00 | Sábados sob encomenda
+                </div>
+
+                <div class="detail-section">
+                    <div class="detail-section-title">Descrição</div>
+                    <p id="detailDescription"></p>
+                </div>
+
+                <div class="detail-section">
+                    <div class="detail-section-title">Quantidade</div>
+                    <div class="quantity-input">
+                        <button type="button" id="btnMinus">−</button>
+                        <input type="number" id="quantityInput" value="1" min="1">
+                        <button type="button" id="btnPlus">+</button>
+                    </div>
+                </div>
+
+                <div class="detail-section">
+                    <div class="detail-section-title">Endereço de Entrega</div>
+                    <div class="location-section">
+                        <label style="display: block; margin-bottom: 8px; font-weight: 500;">Seu endereço</label>
+                        <input type="text" id="deliveryAddress" placeholder="Rua, número, bairro - Fortaleza, CE">
+                        <div class="distance-info">
+                            📍 Saída: Pavuna, Rua São Pedro
+                            <div id="distanceInfo">Calcule a distância preenchendo seu endereço</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="detail-section">
+                    <div class="detail-section-title">Observações (opcional)</div>
+                    <textarea class="comments" id="comments" placeholder="Ex: Sem cebola, com mais chocolate, etc."></textarea>
+                </div>
+
+                <div class="detail-buttons">
+                    <button type="button" class="btn-primary" id="btnConfirmOrder">✓ Confirmar Pedido</button>
+                    <button type="button" class="btn-secondary" id="btnCancelOrder">Cancelar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <main>
+        <!-- HOME PAGE -->
+        <div id="homePage">
+            <div class="hero">
+                <h1>👨‍🍳 Doces & Salgados</h1>
+                <p class="hero-subtitle">Feito com amor, ingredientes frescos e muito carinho</p>
+            </div>
+
+            <div class="about-section">
+                <h3>Sobre nós</h3>
+                <p>
+                    Somos uma pequena produção caseira de doces e salgados. Nossa mãe é formada em <strong>Gastronomia</strong> 
+                    e está cursando <strong>Pós-Graduação</strong> em sua área, garantindo qualidade e sabor em cada produto.
+                </p>
+                <p>
+                    Todos os itens são feitos com <strong>ingredientes frescos</strong>, sem conservantes, 
+                    e entregues com <strong>máximo cuidado</strong>.
+                </p>
+                <div class="socials">
+                    <a href="https://instagram.com" target="_blank">📷 Instagram</a>
+                    <a href="https://wa.me/5585997387175" target="_blank">💬 WhatsApp</a>
+                    <a href="mailto:mae@example.com">📧 Email</a>
+                </div>
+            </div>
+
+            <div class="products-header">
+                <h2>Menu</h2>
+                <button class="btn-secondary" id="btnAdminToggle">Admin</button>
+            </div>
+
+            <div class="status-bar">
+                <div class="status-text">
+                    <span id="availableCount">3</span> produtos disponíveis • 
+                    <span id="closingTime">Fecha em 4h</span>
+                </div>
+                <div style="font-size: 12px; color: var(--text-light);">Última atualização: agora</div>
+            </div>
+
+            <div class="products-grid" id="productsGrid"></div>
+        </div>
+
+        <!-- ADMIN PAGE -->
+        <div id="adminPage" class="admin-container">
+            <h2 style="margin-bottom: 32px;">⚙️ Painel Administrativo</h2>
+            
+            <div class="admin-tabs">
+                <button class="admin-tab active" data-tab="inventory">📦 Estoque</button>
+                <button class="admin-tab" data-tab="orders">📋 Pedidos</button>
+                <button class="admin-tab" data-tab="settings">⚙️ Configurações</button>
+            </div>
+
+            <!-- TAB: INVENTORY -->
+            <div class="tab-content active" data-tab="inventory">
+                <h3 style="margin-bottom: 24px;">Gerenciar Estoque</h3>
+                <div id="inventoryList"></div>
+                <button class="btn-primary" style="margin-top: 24px;" id="btnSaveInventory">💾 Salvar Alterações</button>
+            </div>
+
+            <!-- TAB: ORDERS -->
+            <div class="tab-content" data-tab="orders">
+                <h3 style="margin-bottom: 24px;">Pedidos Recebidos</h3>
+                <div id="ordersList" style="max-height: 500px; overflow-y: auto;"></div>
+            </div>
+
+            <!-- TAB: SETTINGS -->
+            <div class="tab-content" data-tab="settings">
+                <h3 style="margin-bottom: 24px;">Configurações</h3>
+                <div class="form-group">
+                    <label>Horário de Funcionamento (formato: HH:MM - HH:MM)</label>
+                    <input type="text" id="settingHours" value="17:00 - 20:00">
+                </div>
+                <div class="form-group">
+                    <label>Localização de Saída (Rua, número, bairro)</label>
+                    <input type="text" id="settingLocation" value="Pavuna, Rua São Pedro">
+                </div>
+                <button class="btn-primary" id="btnSaveSettings">💾 Salvar Configurações</button>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p>🍰 Mãe's Kitchen - Comida Caseira com Amor 🍰</p>
+        <p style="font-size: 12px; color: #999;">Desenvolvido com ❤️ | Versão 1.0</p>
+    </footer>
+
+    <script>
+        // STATE
+        const state = {
+            user: null,
+            isAdmin: false,
+            currentProduct: null,
+            products: [
+                {
+                    id: 1,
+                    name: 'Empada',
+                    price: 6.50,
+                    description: 'Empada salgada de 130g com recheio suculento e massa crocante.',
+                    icon: '🥟',
+                    stock: 20,
+                    available: true
+                },
+                {
+                    id: 2,
+                    name: 'Pão (Frango + Mortadela)',
+                    price: 5.00,
+                    description: 'Pão caseiro feito por minha mãe com frango desfiado, mortadela defumada, queijo e requeijão.',
+                    icon: '🥖',
+                    stock: 15,
+                    available: true
+                },
+                {
+                    id: 3,
+                    name: 'Bolinho com Cobertura',
+                    price: 5.50,
+                    description: 'Bolinho do tamanho de cupcake com cobertura de chocolate ou doce de leite. Delicioso!',
+                    icon: '🧁',
+                    stock: 8,
+                    available: true
+                }
+            ],
+            orders: [],
+            settings: {
+                hours: '17:00 - 20:00',
+                location: 'Pavuna, Rua São Pedro'
+            }
+        };
+
+        // THEME TOGGLE
+        document.getElementById('toggleTheme').addEventListener('click', () => {
+            document.body.classList.toggle('dark-mode');
+            localStorage.setItem('theme', document.body.classList.contains('dark-mode') ? 'dark' : 'light');
+            updateThemeButton();
+        });
+
+        function updateThemeButton() {
+            const btn = document.getElementById('toggleTheme');
+            btn.textContent = document.body.classList.contains('dark-mode') ? '☀️' : '🌙';
+        }
+
+        // LOAD THEME
+        if (localStorage.getItem('theme') === 'dark') {
+            document.body.classList.add('dark-mode');
+            updateThemeButton();
+        }
+
+        // LOGIN
+        document.getElementById('btnLogin').addEventListener('click', () => {
+            document.getElementById('loginModal').classList.add('active');
+        });
+
+        document.getElementById('btnCloseLogin').addEventListener('click', () => {
+            document.getElementById('loginModal').classList.remove('active');
+        });
+
+        document.getElementById('loginForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const email = document.getElementById('loginEmail').value;
+            // Simple auth (hardcoded for demo)
+            if (email === 'admin@mae.com' && document.getElementById('loginPassword').value === '123456') {
+                state.user = { email };
+                state.isAdmin = true;
+                document.getElementById('btnLogin').textContent = '👤 Sair';
+                document.getElementById('btnAdminToggle').style.display = 'inline-block';
+                document.getElementById('loginModal').classList.remove('active');
+            } else {
+                alert('Email ou senha incorretos');
+            }
+        });
+
+        document.getElementById('btnLogin').addEventListener('click', function() {
+            if (state.user) {
+                state.user = null;
+                state.isAdmin = false;
+                this.textContent = 'Entrar';
+                document.getElementById('homePage').classList.remove('hidden');
+                document.getElementById('adminPage').classList.remove('active');
+                document.getElementById('btnAdminToggle').style.display = 'none';
+            }
+        });
+
+        // RENDER PRODUCTS
+        function renderProducts() {
+            const grid = document.getElementById('productsGrid');
+            grid.innerHTML = state.products.map(p => `
+                <div class="product-card" onclick="openProductDetail(${p.id})">
+                    <div class="product-image">${p.icon}</div>
+                    <div class="product-info">
+                        <div class="product-name">${p.name}</div>
+                        <div class="product-description">${p.description}</div>
+                        <div class="product-price">R$ ${p.price.toFixed(2)}</div>
+                        <div class="product-stock ${p.stock <= 3 ? 'low' : ''} ${p.stock === 0 ? 'out' : ''}">
+                            ${p.stock > 0 ? `${p.stock} unid. disponível${p.stock > 1 ? 's' : ''}` : 'Indisponível'}
+                        </div>
+                        <button class="btn-buy" ${p.stock === 0 ? 'disabled' : ''}>
+                            ${p.stock > 0 ? 'Encomendar' : 'Fora de estoque'}
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+            updateStatus();
+        }
+
+        function updateStatus() {
+            const available = state.products.filter(p => p.stock > 0).length;
+            document.getElementById('availableCount').textContent = available;
+        }
+
+        // PRODUCT DETAIL
+        function openProductDetail(id) {
+            const product = state.products.find(p => p.id === id);
+            state.currentProduct = product;
+            document.getElementById('detailName').textContent = product.name;
+            document.getElementById('detailPrice').textContent = `R$ ${product.price.toFixed(2)}`;
+            document.getElementById('detailDescription').textContent = product.description;
+            document.getElementById('quantityInput').value = 1;
+            document.getElementById('deliveryAddress').value = '';
+            document.getElementById('comments').value = '';
+            document.getElementById('detailModal').classList.add('active');
+        }
+
+        document.getElementById('btnCloseDetail').addEventListener('click', () => {
+            document.getElementById('detailModal').classList.remove('active');
+        });
+
+        document.getElementById('btnCancelOrder').addEventListener('click', () => {
+            document.getElementById('detailModal').classList.remove('active');
+        });
+
+        // QUANTITY
+        document.getElementById('btnPlus').addEventListener('click', () => {
+            const input = document.getElementById('quantityInput');
+            input.value = parseInt(input.value) + 1;
+        });
+
+        document.getElementById('btnMinus').addEventListener('click', () => {
+            const input = document.getElementById('quantityInput');
+            if (parseInt(input.value) > 1) input.value = parseInt(input.value) - 1;
+        });
+
+        // DISTANCE CALCULATION (simplified)
+        document.getElementById('deliveryAddress').addEventListener('change', () => {
+            const address = document.getElementById('deliveryAddress').value;
+            if (address.length > 10) {
+                // Simula cálculo (em produção seria com API Google Maps)
+                const distance = (Math.random() * 8 + 2).toFixed(1);
+                const deliveryFee = (parseFloat(distance) * 2).toFixed(2);
+                document.getElementById('distanceInfo').innerHTML = 
+                    `<strong>~${distance} km</strong> | Taxa de entrega: R$ ${deliveryFee}`;
+            }
+        });
+
+        // CONFIRM ORDER
+        document.getElementById('btnConfirmOrder').addEventListener('click', () => {
+            const quantity = parseInt(document.getElementById('quantityInput').value);
+            const address = document.getElementById('deliveryAddress').value;
+            const comments = document.getElementById('comments').value;
+
+            if (!address) {
+                alert('Por favor, insira seu endereço');
+                return;
+            }
+
+            const order = {
+                id: Date.now(),
+                product: state.currentProduct.name,
+                quantity,
+                price: state.currentProduct.price,
+                address,
+                comments,
+                status: 'pendente',
+                date: new Date().toLocaleString('pt-BR')
+            };
+
+            state.orders.push(order);
+            state.currentProduct.stock -= quantity;
+            renderProducts();
+
+            // Enviar para WhatsApp
+            const total = (state.currentProduct.price * quantity).toFixed(2);
+            const msg = `Novo pedido! 🛒\n${quantity}x ${state.currentProduct.name}\nTotal: R$ ${total}\nEndereço: ${address}\nObs: ${comments || 'Nenhuma'}`;
+            const whatsappLink = `https://wa.me/5585997387175?text=${encodeURIComponent(msg)}`;
+            window.open(whatsappLink, '_blank');
+
+            alert('✅ Pedido confirmado! Enviando para WhatsApp...');
+            document.getElementById('detailModal').classList.remove('active');
+        });
+
+        // ADMIN
+        document.getElementById('btnAdminToggle').addEventListener('click', () => {
+            document.getElementById('homePage').classList.add('hidden');
+            document.getElementById('adminPage').classList.add('active');
+        });
+
+        // ADMIN TABS
+        document.querySelectorAll('.admin-tab').forEach(tab => {
+            tab.addEventListener('click', function() {
+                document.querySelectorAll('.admin-tab').forEach(t => t.classList.remove('active'));
+                document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+                this.classList.add('active');
+                document.querySelector(`.tab-content[data-tab="${this.dataset.tab}"]`).classList.add('active');
+            });
+        });
+
+        // INVENTORY
+        function renderInventory() {
+            const list = document.getElementById('inventoryList');
+            list.innerHTML = state.products.map(p => `
+                <div class="product-row">
+                    <div><strong>${p.name}</strong></div>
+                    <div><input type="number" value="${p.stock}" data-product-id="${p.id}" class="stock-input"></div>
+                    <div>R$ ${p.price.toFixed(2)}</div>
+                    <div>
+                        <label style="font-size: 12px;">
+                            <input type="checkbox" ${p.available ? 'checked' : ''} data-product-id="${p.id}" class="available-input">
+                            Disponível
+                        </label>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        document.getElementById('btnSaveInventory').addEventListener('click', () => {
+            document.querySelectorAll('.stock-input').forEach(input => {
+                const productId = parseInt(input.dataset.productId);
+                const product = state.products.find(p => p.id === productId);
+                product.stock = parseInt(input.value);
+            });
+            document.querySelectorAll('.available-input').forEach(input => {
+                const productId = parseInt(input.dataset.productId);
+                const product = state.products.find(p => p.id === productId);
+                product.available = input.checked;
+            });
+            renderProducts();
+            alert('✅ Estoque atualizado!');
+        });
+
+        // ORDERS
+        function renderOrders() {
+            const list = document.getElementById('ordersList');
+            if (state.orders.length === 0) {
+                list.innerHTML = '<p style="color: var(--text-light); text-align: center;">Nenhum pedido ainda</p>';
+                return;
+            }
+            list.innerHTML = state.orders.map(o => `
+                <div class="product-row" style="grid-template-columns: 1fr;">
+                    <div>
+                        <strong>${o.quantity}x ${o.product}</strong><br>
+                        <small>${o.date}</small><br>
+                        <small>📍 ${o.address}</small><br>
+                        <small style="color: var(--primary);">R$ ${(o.price * o.quantity).toFixed(2)}</small>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // SETTINGS
+        document.getElementById('btnSaveSettings').addEventListener('click', () => {
+            state.settings.hours = document.getElementById('settingHours').value;
+            state.settings.location = document.getElementById('settingLocation').value;
+            document.getElementById('hoursInfo').textContent = `⏰ Funcionamento: ${state.settings.hours}`;
+            alert('✅ Configurações salvas!');
+        });
+
+        document.getElementById('settingHours').value = state.settings.hours;
+        document.getElementById('settingLocation').value = state.settings.location;
+
+        // INIT
+        renderProducts();
+        renderInventory();
+        updateStatus();
+
+        // Controle de admin (esconde por padrão)
+        if (!state.isAdmin) {
+            document.getElementById('btnAdminToggle').style.display = 'none';
+        }
+
+        // Listeners para atualizar tabs
+        function attachOrdersListener() {
+            document.querySelector('.admin-tab[data-tab="orders"]').addEventListener('click', () => {
+                renderOrders();
+            });
+        }
+        attachOrdersListener();
+    </script>
+</body>
+</html>
